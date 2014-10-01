@@ -1,0 +1,6 @@
+﻿<%@ 
+    ServiceHost Language="C#" 
+    Debug="true" 
+    Service="ShadyWallpaperService.ShadyWallpaperService" 
+    CodeBehind="ShadyWallpaperService.svc.cs" 
+    Factory="System.ServiceModel.Activation.WebServiceHostFactory"%>

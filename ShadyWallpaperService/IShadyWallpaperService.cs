@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShadyWallpaperService.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -16,25 +17,19 @@ namespace ShadyWallpaperService
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped,
-            UriTemplate = "{id}")]
-        CompositeType GetData(string id);
+            UriTemplate = "/threads/{board}?r16x9={r16x9}&r4x3={r4x3}")]
+        ThreadsRequest Threads(string board, string r16x9, string r4x3);
 
-        // TODO: Add your service operations here
-    }
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped,
+            UriTemplate = "/boardwalls/{board}?r16x9={r16x9}&r4x3={r4x3}")]
+        BoardWallsRequest BoardWalls(string board, string r16x9, string r4x3);
 
-
-    // Use a data contract as illustrated in the sample below to add composite types to service operations.
-    [DataContract]
-    public class CompositeType
-    {
-        [DataMember]
-        public bool BoolValue { get; private set; }
-        [DataMember]
-        public string StringValue { get; private set; }
-        public CompositeType(bool b, string s)
-        {
-            BoolValue = b;
-            StringValue = s;
-        }
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped,
+            UriTemplate = "/threadwalls/{thread}?r16x9={r16x9}&r4x3={r4x3}")]
+        ThreadWallsRequest ThreadWalls(string thread, string r16x9, string r4x3);
     }
 }

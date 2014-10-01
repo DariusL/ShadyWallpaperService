@@ -79,6 +79,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Keys.cs" />
     <Compile Include="ShadyWallpaperService.svc.cs">
       <DependentUpon>ShadyWallpaperService.svc</DependentUpon>
     </Compile>

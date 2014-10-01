@@ -9,6 +9,7 @@ namespace ShadyWallpaperService.DataTypes
     public class ThreadMongoEntity
     {
         public ObjectId Id;
+        public string Board;
         public int ThreadId;
         public int Time;
     }

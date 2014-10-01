@@ -1,4 +1,5 @@
-﻿using ShadyWallpaperService.DataTypes;
+﻿using MongoDB.Driver.Builders;
+using ShadyWallpaperService.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,21 @@ namespace ShadyWallpaperService
         private MongoDB.Driver.MongoDatabase database;
         public ShadyWallpaperService()
         {
-            var client = new MongoDB.Driver.MongoClient();
+            var connectionString = String.Format("mongodb://{0}:{1}@ds063859.mongolab.com:63859/base", Keys.User, Keys.Pass);
+            var client = new MongoDB.Driver.MongoClient(connectionString);
             var server = client.GetServer();
             database = server.GetDatabase("base");
         }
         public ThreadsRequest Threads(string board, string res16by9, string res4by3)
         {
+            var collection = database.GetCollection("threads");
+            var query = Query<ThreadMongoEntity>.EQ(t => t.Board, board);
+            var entities = collection.FindAs<ThreadMongoEntity>(query);
             var ret = new ThreadsRequest();
             ret.Board = board;
             ret.R4X3 = res4by3;
             ret.R16X9 = res16by9;
+            ret.Threads = entities;
             return ret;
         }
 

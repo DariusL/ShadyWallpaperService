@@ -31,7 +31,7 @@ namespace ShadyWallpaperService
             return ret;
         }
 
-        public ThreadWallsRequest ThreadWalls(string thread, string res16by9, string res4by3)
+        public ThreadWallsRequest ThreadWalls(string board, string thread, string res16by9, string res4by3)
         {
             var ret = new ThreadWallsRequest();
             ret.ThreadId = Convert.ToInt32(thread);

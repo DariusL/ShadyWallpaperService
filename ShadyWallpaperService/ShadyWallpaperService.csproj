@@ -72,8 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\BoardWallsRequest.cs" />
+    <Compile Include="DataTypes\ThreadMongoEntity.cs" />
     <Compile Include="DataTypes\ThreadsRequest.cs" />
     <Compile Include="DataTypes\ThreadWallsRequest.cs" />
+    <Compile Include="DataTypes\WallMongoEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -13,6 +13,13 @@ namespace ShadyWallpaperService
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class ShadyWallpaperService : IShadyWallpaperService
     {
+        private MongoDB.Driver.MongoDatabase database;
+        public ShadyWallpaperService()
+        {
+            var client = new MongoDB.Driver.MongoClient();
+            var server = client.GetServer();
+            database = server.GetDatabase("base");
+        }
         public ThreadsRequest Threads(string board, string res16by9, string res4by3)
         {
             var ret = new ThreadsRequest();

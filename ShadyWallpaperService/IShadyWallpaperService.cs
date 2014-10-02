@@ -17,8 +17,8 @@ namespace ShadyWallpaperService
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped,
-            UriTemplate = "/{board}/threads?r16x9={r16x9}&r4x3={r4x3}")]
-        ThreadsRequest Threads(string board, string r16x9, string r4x3);
+            UriTemplate = "/{board}/threads/{page}?r16x9={r16x9}&r4x3={r4x3}")]
+        IEnumerable<int> Threads(string board, string page, string r16x9, string r4x3);
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,

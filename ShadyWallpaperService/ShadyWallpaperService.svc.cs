@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
 using ShadyWallpaperService.DataTypes;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace ShadyWallpaperService
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class ShadyWallpaperService : IShadyWallpaperService
     {
+        private const int ThreadPageSize = 20;
+        private const int WallPageSize = 50;
         private MongoDB.Driver.MongoDatabase database;
         public ShadyWallpaperService()
         {
@@ -22,17 +25,18 @@ namespace ShadyWallpaperService
             var server = client.GetServer();
             database = server.GetDatabase("base");
         }
-        public ThreadsRequest Threads(string board, string res16by9, string res4by3)
+        public IEnumerable<int> Threads(string board, string requestPage, string res16by9, string res4by3)
         {
             var collection = database.GetCollection("threads");
-            var query = Query<ThreadMongoEntity>.EQ(t => t.Board, board);
-            var entities = collection.FindAs<ThreadMongoEntity>(query);
-            var ret = new ThreadsRequest();
-            ret.Board = board;
-            ret.R4X3 = res4by3;
-            ret.R16X9 = res16by9;
-            ret.Threads = entities;
-            return ret;
+            int page = Convert.ToInt32(requestPage) - 1;
+            var entities = collection.AsQueryable<ThreadMongoEntity>()
+                .Where(e => e.Board == board)
+                .OrderBy(e => e.Time)
+                .Skip(page * ThreadPageSize)
+                .Take(ThreadPageSize)
+                .Select(e => e.ThreadId);
+
+            return entities;
         }
 
         public BoardWallsRequest BoardWalls(string board, string res16by9, string res4by3)

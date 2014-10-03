@@ -11,8 +11,6 @@ using System.Text;
 
 namespace ShadyWallpaperService
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class ShadyWallpaperService : IShadyWallpaperService
     {
         private const int ThreadPageSize = 20;
@@ -29,29 +27,50 @@ namespace ShadyWallpaperService
         {
             var threadCollection = database.GetCollection("threads");
             var postCollection = database.GetCollection("posts");
-            int page = Convert.ToInt32(requestPage) - 1;
+            var context = WebOperationContext.Current;
 
-            var threadIds = postCollection.AsQueryable<WallEntity>()
-                .Select(w => w.ThreadId)
-                .Distinct();
-
-            var threads = threadCollection.AsQueryable<ThreadEntity>()
-                .Where(e => e.Board == board)
-                .Where(e => e.ThreadId.In(threadIds))
-                .OrderBy(e => e.Time)
-                .Skip(page * ThreadPageSize)
-                .Take(ThreadPageSize)
-                .ToList();
-
-            foreach (var thread in threads)
+            try
             {
-                thread.Walls = postCollection.AsQueryable<WallEntity>()
-                    .Where(w => w.ThreadId == thread.ThreadId)
-                    .OrderBy(w => w.Time)
-                    .Take(3);
+                int page = Convert.ToInt32(requestPage) - 1;
+                var enum16by9 = (int)(res16by9 != null ? TypeUtils.ParseEnum<R16By9>(res16by9) : R16By9.None);
+                var enum4by3 = (int)(res4by3 != null ? TypeUtils.ParseEnum<R4By3>(res4by3) : R4By3.None);
+
+                var threadIds = postCollection.AsQueryable<WallEntity>()
+                    .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
+                    .Select(w => w.ThreadId)
+                    .Distinct();
+
+                var threads = threadCollection.AsQueryable<ThreadEntity>()
+                    .Where(e => e.Board == board)
+                    .Where(e => e.ThreadId.In(threadIds))
+                    .OrderBy(e => e.Time)
+                    .Skip(page * ThreadPageSize)
+                    .Take(ThreadPageSize)
+                    .ToList();
+
+                foreach (var thread in threads)
+                {
+                    thread.Walls = postCollection.AsQueryable<WallEntity>()
+                        .Where(w => w.ThreadId == thread.ThreadId)
+                        .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
+                        .OrderBy(w => w.Time)
+                        .Take(3);
+                }
+
+                return threads;
+            }
+            catch(FormatException)
+            {
+                //422 Unprocessable Entity
+                context.OutgoingResponse.StatusCode = (System.Net.HttpStatusCode)422;
+            }
+            catch(OverflowException)
+            {
+                //422 Unprocessable Entity
+                context.OutgoingResponse.StatusCode = (System.Net.HttpStatusCode)422;
             }
 
-            return threads;
+            return null;
         }
 
         public BoardWallsRequest BoardWalls(string board, string res16by9, string res4by3)
@@ -70,6 +89,12 @@ namespace ShadyWallpaperService
             ret.R4X3 = res4by3;
             ret.R16X9 = res16by9;
             return ret;
+        }
+
+        public string Teapot()
+        {
+            WebOperationContext.Current.OutgoingResponse.StatusCode = (System.Net.HttpStatusCode)418;
+            return "I'm a teapot";
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web;
 namespace ShadyWallpaperService.DataTypes
 {
     [DataContract]
+    [BsonIgnoreExtraElements]
     public class WallEntity
     {
         [DataMember]
@@ -15,7 +17,6 @@ namespace ShadyWallpaperService.DataTypes
         [DataMember]
         public string ThumbUrl;
 
-        public ObjectId Id;
         public long ThreadId;
         public int B16X9;
         public int B4X3;

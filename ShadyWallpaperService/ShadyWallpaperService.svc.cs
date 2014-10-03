@@ -25,18 +25,33 @@ namespace ShadyWallpaperService
             var server = client.GetServer();
             database = server.GetDatabase("base");
         }
-        public IEnumerable<int> Threads(string board, string requestPage, string res16by9, string res4by3)
+        public IEnumerable<ThreadEntity> Threads(string board, string requestPage, string res16by9, string res4by3)
         {
-            var collection = database.GetCollection("threads");
+            var threadCollection = database.GetCollection("threads");
+            var postCollection = database.GetCollection("posts");
             int page = Convert.ToInt32(requestPage) - 1;
-            var entities = collection.AsQueryable<ThreadMongoEntity>()
+
+            var threadIds = postCollection.AsQueryable<WallEntity>()
+                .Select(w => w.ThreadId)
+                .Distinct();
+
+            var threads = threadCollection.AsQueryable<ThreadEntity>()
                 .Where(e => e.Board == board)
+                .Where(e => e.ThreadId.In(threadIds))
                 .OrderBy(e => e.Time)
                 .Skip(page * ThreadPageSize)
                 .Take(ThreadPageSize)
-                .Select(e => e.ThreadId);
+                .ToList();
 
-            return entities;
+            foreach (var thread in threads)
+            {
+                thread.Walls = postCollection.AsQueryable<WallEntity>()
+                    .Where(w => w.ThreadId == thread.ThreadId)
+                    .OrderBy(w => w.Time)
+                    .Take(3);
+            }
+
+            return threads;
         }
 
         public BoardWallsRequest BoardWalls(string board, string res16by9, string res4by3)

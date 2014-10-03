@@ -12,7 +12,7 @@ namespace ShadyWallpaperService.DataTypes
         [DataMember]
         public string Board { get; set; }
         [DataMember]
-        public IEnumerable<ThreadMongoEntity> Threads { get; set; }
+        public IEnumerable<ThreadEntity> Threads { get; set; }
         [DataMember]
         public string R16X9 { get; set; }
         [DataMember]

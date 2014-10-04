@@ -80,18 +80,33 @@ namespace ShadyWallpaperService
             var postCollection = database.GetCollection("posts");
             var context = WebOperationContext.Current;
 
-            int page = Convert.ToInt32(requestPage) - 1;
-            var enum16by9 = (int)(res16by9 != null ? TypeUtils.ParseEnum<R16By9>(res16by9) : R16By9.None);
-            var enum4by3 = (int)(res4by3 != null ? TypeUtils.ParseEnum<R4By3>(res4by3) : R4By3.None);
+            try
+            {
+                int page = Convert.ToInt32(requestPage) - 1;
+                var enum16by9 = (int)(res16by9 != null ? TypeUtils.ParseEnum<R16By9>(res16by9) : R16By9.None);
+                var enum4by3 = (int)(res4by3 != null ? TypeUtils.ParseEnum<R4By3>(res4by3) : R4By3.None);
 
-            var walls = postCollection.AsQueryable<WallEntity>()
-                .Where(w => w.Board == board)
-                .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
-                .OrderBy(w => w.Time)
-                .Skip(page * WallPageSize)
-                .Take(WallPageSize);
+                var walls = postCollection.AsQueryable<WallEntity>()
+                    .Where(w => w.Board == board)
+                    .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
+                    .OrderBy(w => w.Time)
+                    .Skip(page * WallPageSize)
+                    .Take(WallPageSize);
 
-            return walls;
+                return walls;
+            }
+            catch (FormatException)
+            {
+                //422 Unprocessable Entity
+                context.OutgoingResponse.StatusCode = (System.Net.HttpStatusCode)422;
+            }
+            catch (OverflowException)
+            {
+                //422 Unprocessable Entity
+                context.OutgoingResponse.StatusCode = (System.Net.HttpStatusCode)422;
+            }
+
+            return null;
         }
 
         public IEnumerable<WallEntity> ThreadWalls(string board, string requestThread, string requestPage, string res16by9, string res4by3)
@@ -99,20 +114,35 @@ namespace ShadyWallpaperService
             var postCollection = database.GetCollection("posts");
             var context = WebOperationContext.Current;
 
-            int page = Convert.ToInt32(requestPage) - 1;
-            long thread = Convert.ToInt64(requestThread);
-            var enum16by9 = (int)(res16by9 != null ? TypeUtils.ParseEnum<R16By9>(res16by9) : R16By9.None);
-            var enum4by3 = (int)(res4by3 != null ? TypeUtils.ParseEnum<R4By3>(res4by3) : R4By3.None);
+            try
+            {
+                int page = Convert.ToInt32(requestPage) - 1;
+                long thread = Convert.ToInt64(requestThread);
+                var enum16by9 = (int)(res16by9 != null ? TypeUtils.ParseEnum<R16By9>(res16by9) : R16By9.None);
+                var enum4by3 = (int)(res4by3 != null ? TypeUtils.ParseEnum<R4By3>(res4by3) : R4By3.None);
 
-            var walls = postCollection.AsQueryable<WallEntity>()
-                .Where(w => w.ThreadId == thread)
-                .Where(w => w.Board == board)
-                .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
-                .OrderBy(w => w.Time)
-                .Skip(page * WallPageSize)
-                .Take(WallPageSize);
+                var walls = postCollection.AsQueryable<WallEntity>()
+                    .Where(w => w.ThreadId == thread)
+                    .Where(w => w.Board == board)
+                    .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
+                    .OrderBy(w => w.Time)
+                    .Skip(page * WallPageSize)
+                    .Take(WallPageSize);
 
-            return walls;
+                return walls;
+            }
+            catch (FormatException)
+            {
+                //422 Unprocessable Entity
+                context.OutgoingResponse.StatusCode = (System.Net.HttpStatusCode)422;
+            }
+            catch (OverflowException)
+            {
+                //422 Unprocessable Entity
+                context.OutgoingResponse.StatusCode = (System.Net.HttpStatusCode)422;
+            }
+
+            return null;
         }
 
         public string Teapot()

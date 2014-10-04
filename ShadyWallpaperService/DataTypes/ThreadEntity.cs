@@ -12,10 +12,10 @@ namespace ShadyWallpaperService.DataTypes
     [BsonIgnoreExtraElements]
     public class ThreadEntity
     {
+        [DataMember]
+        public long Id;
         public string Board;
         public long Time;
-        [DataMember]
-        public long ThreadId;
         [DataMember]
         public string OpContent;
         [DataMember]

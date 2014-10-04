@@ -44,7 +44,7 @@ namespace ShadyWallpaperService
 
                 var threads = threadCollection.AsQueryable<ThreadEntity>()
                     .Where(e => e.Board == board)
-                    .Where(e => e.ThreadId.In(threadIds))
+                    .Where(e => e.Id.In(threadIds))
                     .OrderBy(e => e.Time)
                     .Skip(page * ThreadPageSize)
                     .Take(ThreadPageSize)
@@ -53,7 +53,7 @@ namespace ShadyWallpaperService
                 foreach (var thread in threads)
                 {
                     thread.Walls = postCollection.AsQueryable<WallEntity>()
-                        .Where(w => w.ThreadId == thread.ThreadId)
+                        .Where(w => w.ThreadId == thread.Id)
                         .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
                         .OrderBy(w => w.Time)
                         .Take(3);

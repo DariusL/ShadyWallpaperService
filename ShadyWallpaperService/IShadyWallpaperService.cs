@@ -22,14 +22,14 @@ namespace ShadyWallpaperService
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "/{board}/walls?r16x9={r16x9}&r4x3={r4x3}")]
-        BoardWallsRequest BoardWalls(string board, string r16x9, string r4x3);
+            UriTemplate = "/{board}/walls/{page}?r16x9={r16x9}&r4x3={r4x3}")]
+        IEnumerable<WallEntity> BoardWalls(string board, string page, string r16x9, string r4x3);
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "/{board}/{thread}/walls?r16x9={r16x9}&r4x3={r4x3}")]
-        ThreadWallsRequest ThreadWalls(string board, string thread, string r16x9, string r4x3);
+            UriTemplate = "/{board}/{thread}/walls/{page}?r16x9={r16x9}&r4x3={r4x3}")]
+        IEnumerable<WallEntity> ThreadWalls(string board, string thread, string page, string r16x9, string r4x3);
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,

@@ -20,5 +20,12 @@ namespace ShadyWallpaperService.DataTypes
         public string OpContent;
         [DataMember]
         public IEnumerable<WallEntity> Walls;
+
+        public ThreadEntity() { }
+        public ThreadEntity(long id, IEnumerable<WallEntity> walls)
+        {
+            Id = id;
+            Walls = walls;
+        }
     }
 }

@@ -19,8 +19,10 @@ namespace ShadyWallpaperService.DataTypes
 
         public string Board;
         public long ThreadId;
+        [DataMember]
         public int B16X9;
+        [DataMember]
         public int B4X3;
-        public int Time;
+        public long Time;
     }
 }

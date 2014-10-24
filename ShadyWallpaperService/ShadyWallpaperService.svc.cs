@@ -37,20 +37,18 @@ namespace ShadyWallpaperService
                 var enum16by9 = (int)(res16by9 != null ? TypeUtils.ParseEnum<R16By9>(res16by9) : R16By9.None);
                 var enum4by3 = (int)(res4by3 != null ? TypeUtils.ParseEnum<R4By3>(res4by3) : R4By3.None);
 
-                var posts = postCollection.AsQueryable<WallEntity>()
+                var threadIds = postCollection.AsQueryable<WallEntity>()
                     .Where(w => w.Board == board)
                     .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
-                    .ToList();
-
-                var threadIds = posts
                     .Select(w => w.ThreadId)
                     .Distinct();
 
                 var threads = threadCollection.AsQueryable<ThreadEntity>()
                     .Where(t => t.Id.In(threadIds))
+                    .OrderBy(t => t.Time)
+                    .Skip(page * ThreadPageSize)
+                    .Take(ThreadPageSize)
                     .ToList();
-
-                threads.ForEach(t => t.Walls = posts.Where(w => w.ThreadId == t.Id).Take(3));
 
                 return threads;
             }

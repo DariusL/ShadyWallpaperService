@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using ShadyWallpaperService.DataTypes;
 using System;
@@ -11,20 +12,27 @@ using System.Text;
 
 namespace ShadyWallpaperService
 {
-    //[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)] 
     public class ShadyWallpaperService : IShadyWallpaperService
     {
         private const int ThreadPageSize = 20;
         private const int WallPageSize = 50;
-        private MongoDB.Driver.MongoDatabase database;
+
+        private MongoDatabase database;
 
         public ShadyWallpaperService()
         {
-            var connectionString = String.Format("mongodb://{0}:{1}@ds063859.mongolab.com:63859/base", Keys.User, Keys.Pass);
-            var client = new MongoDB.Driver.MongoClient(connectionString);
-            var server = client.GetServer();
-            database = server.GetDatabase("base");
+            database = CreateDatabase();
+            database.Server.Ping();
         }
+
+        protected virtual MongoDatabase CreateDatabase()
+        {
+            var connectionString = String.Format("mongodb://{0}:{1}@ds063859.mongolab.com:63859/base", Keys.User, Keys.Pass);
+            var client = new MongoClient(connectionString);
+            var server = client.GetServer();
+            return server.GetDatabase("base");
+        }
+
         public IEnumerable<ThreadEntity> Threads(string board, string requestPage, string res16by9, string res4by3)
         {
             var threadCollection = database.GetCollection("threads");

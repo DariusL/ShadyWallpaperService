@@ -35,6 +35,13 @@ namespace ShadyWallpaperServiceTester
             var data = service.BoardWalls("w", "4", "R1920By1080", null);
             Test(data);
         }
+        [TestMethod]
+        public void TestThreadsCall()
+        {
+            var service = GetService();
+            var data = service.Threads("wg", "1", "R1920By1080", null);
+            Test(data);
+        }
 
         private static void Test<T>(T data, [CallerMemberName] string name = "")
         {

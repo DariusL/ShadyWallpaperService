@@ -15,17 +15,24 @@ namespace ShadyWallpaperServiceTester
         {
             return new TestingService();
         }
+        
         [TestMethod]
         public void TestConnection()
         {
             var service = GetService();
         }
-
         [TestMethod]
         public void Test1080pFromBoard()
         {
             var service = GetService();
             var data = service.BoardWalls("wg", "1", "R1920By1080", null);
+            Test(data);
+        }
+        [TestMethod]
+        public void Test4thPageFromBoard()
+        {
+            var service = GetService();
+            var data = service.BoardWalls("w", "4", "R1920By1080", null);
             Test(data);
         }
 

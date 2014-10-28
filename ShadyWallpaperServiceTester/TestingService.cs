@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using ShadyWallpaperService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace ShadyWallpaperServiceTester
     {
         protected override MongoDatabase CreateDatabase()
         {
-            var connectionString = String.Format("mongodb://localhost:27017");
+            var connectionString = String.Format("mongodb://{0}:{1}@ds049170.mongolab.com:49170/base-test", Keys.User, Keys.Pass);
             var client = new MongoClient(connectionString);
             var server = client.GetServer();
-            return server.GetDatabase("base");
+            return server.GetDatabase("base-test");
         }
     }
 }

@@ -3,12 +3,14 @@ using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using ShadyWallpaperService.DataTypes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using ShadyWallpaperService;
 
 namespace ShadyWallpaperService
 {
@@ -47,7 +49,7 @@ namespace ShadyWallpaperService
 
                 var threadIds = postCollection.AsQueryable<WallEntity>()
                     .Where(w => w.Board == board)
-                    .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
+                    .WhereSize(enum16by9, enum4by3)
                     .Select(w => w.ThreadId)
                     .Distinct();
 
@@ -91,7 +93,7 @@ namespace ShadyWallpaperService
 
                 var walls = postCollection.AsQueryable<WallEntity>()
                     .Where(w => w.Board == board)
-                    .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
+                    .WhereSize(enum16by9, enum4by3)
                     .OrderBy(w => w.Time)
                     .Skip(page * WallPageSize)
                     .Take(WallPageSize);
@@ -127,7 +129,7 @@ namespace ShadyWallpaperService
                 var walls = postCollection.AsQueryable<WallEntity>()
                     .Where(w => w.ThreadId == thread)
                     .Where(w => w.Board == board)
-                    .Where(w => w.B16X9 >= enum16by9 || w.B4X3 >= enum4by3)
+                    .WhereSize(enum16by9, enum4by3)
                     .OrderBy(w => w.Time)
                     .Skip(page * WallPageSize)
                     .Take(WallPageSize);

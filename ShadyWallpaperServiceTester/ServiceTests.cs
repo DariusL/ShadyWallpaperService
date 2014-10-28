@@ -1,4 +1,4 @@
-﻿//#define REWRITE
+﻿#define REWRITE
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShadyWallpaperService;
@@ -46,7 +46,14 @@ namespace ShadyWallpaperServiceTester
         public void TestTreadWallsCall()
         {
             var service = GetService();
-            var data = service.ThreadWalls("wg", "5971092", "1", "R1920By1080", null);
+            var data = service.ThreadWalls("w", "1663443", "1", "R1920By1080", null);
+            Test(data);
+        }
+        [TestMethod]
+        public void Test800By600FromBoard()
+        {
+            var service = GetService();
+            var data = service.BoardWalls("wg", "1", null, "R800X600");
             Test(data);
         }
 

@@ -7,6 +7,7 @@ namespace ShadyWallpaperService.DataTypes
 {
     internal enum R16By9
     {
+        None,
         All,
         R1280By720,
         R1366By768,
@@ -14,20 +15,17 @@ namespace ShadyWallpaperService.DataTypes
         R1920By1080,
         R2560By1440,
         R3840By2160,
-        R7680By4320,
-        NA,
-        None
+        R7680By4320
     }
 
     internal enum R4By3
     {
+        None,
         All,
         R800X600,
         R1024X768,
         R1280By1024,
-        R1600By1200,
-        NA,
-        None
+        R1600By1200
     }
 
     internal static class TypeUtils

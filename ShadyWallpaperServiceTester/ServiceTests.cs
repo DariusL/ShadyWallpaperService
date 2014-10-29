@@ -1,4 +1,4 @@
-﻿//#define REWRITE
+﻿#define REWRITE
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShadyWallpaperService;

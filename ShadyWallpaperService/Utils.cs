@@ -10,19 +10,11 @@ namespace ShadyWallpaperService
     {
         public static IQueryable<WallEntity> WhereSize(this IQueryable<WallEntity> walls, int enum16By9, int enum4By3)
         {
-            if (enum16By9 * enum4By3 != 0)
-            {
-                walls = walls.Where(w => w.B16X9 >= enum16By9 || w.B4X3 >= enum4By3);
-            }
+            if (enum16By9 == (int)R16By9.None && enum4By3 == (int)R4By3.None)
+                return walls;
             else
-            {
-                if (enum4By3 != 0)
-                    walls = walls.Where(w => w.B4X3 >= enum4By3);
-                if (enum16By9 != 0)
-                    walls = walls.Where(w => w.B16X9 >= enum16By9);
-            }
-
-            return walls;
+                return walls.Where(w => (w.B16X9 != (int)R16By9.None && w.B16X9 >= enum16By9)
+                    || (w.B4X3 != (int)R4By3.None && w.B4X3 >= enum4By3));
         }
     }
 }

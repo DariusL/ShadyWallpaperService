@@ -12,7 +12,7 @@ namespace ShadyWallpaperServiceTester
     {
         protected override MongoDatabase CreateDatabase()
         {
-            var connectionString = String.Format("mongodb://{0}:{1}@ds049180.mongolab.com:49180/base-test", Keys.User, Keys.Pass);
+            var connectionString = String.Format("mongodb://{0}:{1}@ds049130.mongolab.com:49130/base-test", Keys.User, Keys.Pass);
             var client = new MongoClient(connectionString);
             var server = client.GetServer();
             return server.GetDatabase("base-test");

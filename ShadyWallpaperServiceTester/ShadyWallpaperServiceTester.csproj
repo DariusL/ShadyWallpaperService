@@ -64,9 +64,9 @@
     <Compile Include="TestingService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShadyWallpaperService\ShadyWallpaperService.csproj">
+    <ProjectReference Include="..\ShadyWallpaperService\Appharbor.csproj">
       <Project>{f6e1a365-1a39-4344-854d-5853f1766936}</Project>
-      <Name>ShadyWallpaperService</Name>
+      <Name>Appharbor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

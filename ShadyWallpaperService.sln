@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadyWallpaperService", "ShadyWallpaperService\ShadyWallpaperService.csproj", "{F6E1A365-1A39-4344-854D-5853F1766936}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appharbor", "ShadyWallpaperService\Appharbor.csproj", "{F6E1A365-1A39-4344-854D-5853F1766936}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadyWallpaperServiceTester", "ShadyWallpaperServiceTester\ShadyWallpaperServiceTester.csproj", "{53FC9A8B-003A-4B15-B934-BF9AC0F1181E}"
 EndProject

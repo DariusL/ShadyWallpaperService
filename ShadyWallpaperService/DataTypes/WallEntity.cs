@@ -16,7 +16,9 @@ namespace ShadyWallpaperService.DataTypes
         public string WallUrl;
         [DataMember]
         public string ThumbUrl;
-
+        [DataMember]
+        public long Id;
+        [DataMember]
         public string Board;
         public long ThreadId;
         [DataMember]

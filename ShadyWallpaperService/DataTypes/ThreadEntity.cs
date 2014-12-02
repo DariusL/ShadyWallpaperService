@@ -14,6 +14,7 @@ namespace ShadyWallpaperService.DataTypes
     {
         [DataMember]
         public long Id;
+        [DataMember]
         public string Board;
         public long Time;
         [DataMember]

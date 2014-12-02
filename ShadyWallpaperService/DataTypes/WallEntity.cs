@@ -20,6 +20,7 @@ namespace ShadyWallpaperService.DataTypes
         public long Id;
         [DataMember]
         public string Board;
+        [DataMember]
         public long ThreadId;
         [DataMember]
         public int B16X9;

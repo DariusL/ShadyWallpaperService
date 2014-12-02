@@ -60,6 +60,9 @@ namespace ShadyWallpaperService
                     .Take(ThreadPageSize)
                     .ToList();
 
+                new LogEvent(String.Format("board walls request: board: {0}, page: {1}, res16by9: {2}, res4by3: {3}, result count: {4}",
+                    board, requestPage, res16by9, res4by3, threads.Count())).Raise();
+
                 return threads;
             }
             catch(FormatException)
@@ -98,6 +101,9 @@ namespace ShadyWallpaperService
                     .Skip(page * WallPageSize)
                     .Take(WallPageSize);
 
+                new LogEvent(String.Format("board walls request: board: {0}, page: {1}, res16by9: {2}, res4by3: {3}, result count: {4}",
+                    board, requestPage, res16by9, res4by3, walls.Count())).Raise();
+
                 return walls;
             }
             catch (FormatException)
@@ -133,6 +139,9 @@ namespace ShadyWallpaperService
                     .OrderBy(w => w.Time)
                     .Skip(page * WallPageSize)
                     .Take(WallPageSize);
+
+                new LogEvent(String.Format("thread walls request: board: {0}, thread: {1}, page: {2}, res16by9: {3}, res4by3: {4}, result count: {5}",
+                    board, requestThread, requestPage, res16by9, res4by3, walls.Count())).Raise();
 
                 return walls;
             }
